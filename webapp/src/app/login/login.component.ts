@@ -37,8 +37,8 @@ export class LoginComponent implements OnInit {
       var fcaval = post.username;
       this.api.createHashapi(fcaval).subscribe((data: {}) => {
         localStorage.p2c_fcaHash = data["md5_val"];
-        console.log('Data new: ',data);
-      // window.location.href = '/home';
+        //console.log('Data new: ',data);
+        window.location.href = '/home';
       });
     }
 
