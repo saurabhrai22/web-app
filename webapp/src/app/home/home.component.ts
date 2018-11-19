@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router'
 import { ApiService } from '../api.service'
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -7,11 +9,11 @@ import { ApiService } from '../api.service'
 })
 export class HomeComponent implements OnInit {
 	 
-  constructor( public api:ApiService ) { }
+  constructor( public api:ApiService, public router:Router ) { }
 
   ngOnInit() { 
     if(localStorage.p2c_fcaHash == undefined ){
-      window.location.href = '/login';
+      this.router.navigate(['/login']);
     } 
   }
 

@@ -11,40 +11,17 @@ import { Observable, of } from 'rxjs';
 export class ApiService {
   //endpoint = 'http://localhost:5000';
   endpoint = "https://p2cevo-webapp-webservices.azurewebsites.net";
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type':  'application/json',
-      'Access-Control-Allow-Origin': '*'
-    })
-  }
-  constructor(private http: HttpClient) { }
-  //This is for the GET request
-  private extractData(res: Response) {
-    let body = res;
-    return body || { };
-  }
+
+  constructor(private httpClient: HttpClient) { }
    
   createHashapi(fcaId): Observable<any> {
-    //This is for the GET request
-   return this.http.get(this.endpoint + '/createhash',{headers : new HttpHeaders().set("Access-Control-Allow-Origin","*",).set('Content-Type',  'application/json'), params : new HttpParams().set('fcaid',fcaId)});
-    /* .pipe(
-      map(this.extractData)); */
-
-    //This is for the POST request
-    //return this.http.post(this.endpoint + '/createhash',null,{headers : new HttpHeaders().set("Access-Control-Allow-Origin","*",).set('Content-Type',  'application/json'), params : new HttpParams().set('fcaid',fcaId)});
-    //return this.http.post(this.endpoint+"/createhash",{'fcaid':fcaId});
+   return this.httpClient.post(this.endpoint + '/createhash',{'fcaid':fcaId});
   }
+
   generateTicketapi(ticketObj) {
-    //This is for the GET request
-    /* return this.http.get(this.endpoint + '/convertmd5?fcaid='+fcaId).pipe(
-      map(this.extractData)); */
-
-    //This is for the POST request
-    return this.http.get(this.endpoint + '/generatedummyticket',{headers : new HttpHeaders().set("Access-Control-Allow-Origin","*",).set('Content-Type',  'application/json'), params : new HttpParams().set('dataset',ticketObj )});
-
-   // return this.http.post(this.endpoint+"/generatedummyticket",null,{params: new HttpParams().set( 'dataset',ticketObj )});
+    return this.httpClient.post(this.endpoint + '/generatedummyticket',{'dataset':ticketObj });
   }
-//{params: new HttpParams().set( 'fcaid',fcaid )}
+
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
   

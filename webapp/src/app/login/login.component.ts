@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { Router } from '@angular/router'
+import { HttpClient } from "@angular/common/http";
 import { ApiService } from '../api.service'
-import {HttpClient} from "@angular/common/http";
+
 
 @Component({
   selector: 'app-login',
@@ -9,8 +11,6 @@ import {HttpClient} from "@angular/common/http";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  products:any = [];
-  /* customersObservable : Observable<Customer[]>; */ 
 
   lForm:FormGroup;
   post:any;
@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   password:string;
   
   
-  constructor( private formBuilder: FormBuilder, private http:HttpClient, public api:ApiService ) {
+  constructor( private formBuilder: FormBuilder, private http:HttpClient, public api:ApiService, public router:Router ) {
     this.lForm = formBuilder.group({
       'username': [null,Validators.required],
       'password': [null,Validators.required]
@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     if(localStorage.p2c_fcaHash != undefined ){
-      window.location.href = '/home';
+      this.router.navigate(['/home']);
     } 
   }
  
@@ -36,20 +36,10 @@ export class LoginComponent implements OnInit {
     {
       var fcaval = post.username;
       this.api.createHashapi(fcaval).subscribe((data: {}) => {
+        //console.log('Data from API: ',data);
         localStorage.p2c_fcaHash = data["md5_val"];
-        //console.log('Data new: ',data);
-        window.location.href = '/home';
+        this.router.navigate(['/home']);
       });
     }
-
-    
-    //window.location.href = '/home';
-  
-   /*  var fcaval = "f39130c";
-      const params = new HttpParams({fromString : fcaval});
-      this.http.request("GET","http://localhost:5000/convertmd5?fcaid=f39130c");
-      console.log('Data Submitted.!'); */
-    //console.log(testData);
-    
   }
 }
