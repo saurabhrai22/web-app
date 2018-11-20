@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     if(localStorage.p2c_fcaHash != undefined ){
-      this.router.navigate(['/home']);
+      this.router.navigate(['/edit']);
     } 
   }
  
@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
       this.api.createHashapi(fcaval).subscribe((data: {}) => {
         //console.log('Data from API: ',data);
         localStorage.p2c_fcaHash = data["md5_val"];
-        this.router.navigate(['/home']);
+        this.router.navigate(['/edit']);
       });
     }
   }
