@@ -6,19 +6,29 @@
                     <p class="nav-profile-info"><span>USER NAME</span><br/>
                     <span>Fiat Italy</span></p>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6" align="center">
+                        <app-breakpoints (breakpointsEvents)="changeIframeWidth($event)" (breakpointsEvents)="closeEditorDiv()" ></app-breakpoints>
                 </div>
                 <div class="col-md-3">
-                        <img class="nav-cart-icon" src="../assets/images/Shopping_OFF.SVG"/>
-                        <img (click)="generateTiciet()" class="nav-jira-icon" src="../assets/images/Dashboard_OFF.SVG"/>
+                        <img class="nav-cart-icon"  src="../assets/images/Shopping_OFF.SVG"/>
+                        <img (click)="generateTiciet('send')" class="nav-jira-icon" src="../assets/images/Dashboard_OFF.SVG"/>
                         <img class="nav-notification-icon" src="../assets/images/Notification_OFF.SVG"/>
                 </div>
             </div>
         </div>
     </div>
     <div class="content-wrapper">
-        <iframe class="main-iframe" src="https://www.Fiat.it"></iframe>
+        <app-mainiframe [url]="url" [iframeSize]="iframeSize" (sendJsonToHome)="showEditorDiv($event)"></app-mainiframe>
     </div>
+      <div *ngIf="chatDivShow" class="chatbot-frame-div">
+          <iframe src="https://35.239.8.145/kfca/chat" class="chatbot-frame" frameborder="0"></iframe>
+    </div> 
     <div class="chat-div">
-        <img class="nav-chat-icon" src="../assets/images/chat.svg"/>
+        <img class="nav-chat-icon" (click)="showChatDiv()"  src="../assets/images/chat.svg"/>
+    </div>
+    <!-- <script src=""></script> -->
+    <!-- <script src="https://13.94.175.214/kfca/chatbotFrameIntegration.js"></script>  -->
+    <div *ngIf="editorDivShow" class="floating-editor">
+        <span class="floating-editor-close-btn" (click)="closeEditorDiv(false)" ></span>
+        <app-editor [compData]="compData" (hideEditorDiv)="closeEditorDiv($event)" (generateTicket)="generateTiciet($event)" ></app-editor>
     </div>
