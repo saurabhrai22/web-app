@@ -13,6 +13,9 @@ import { EditorComponent } from './editor/editor.component';
 import { MainiframeComponent,SafePipe } from './mainiframe/mainiframe.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { LogoutComponent } from './logout/logout.component';
+import { VirtualAssistantComponent } from './virtual-assistant/virtual-assistant.component';
+import { TextEditorComponent } from './text-editor/text-editor.component';
+import { RichtextEditorComponent } from './richtext-editor/richtext-editor.component';
 
 const appRoutes: Routes = [
   {path: '',	component: HomeComponent},
@@ -33,7 +36,10 @@ const appRoutes: Routes = [
     BreakpointsComponent,
     EditorComponent,
     MainiframeComponent,
-    LogoutComponent
+    LogoutComponent,
+    VirtualAssistantComponent,
+    TextEditorComponent,
+    RichtextEditorComponent
   ],
   imports: [
     BrowserModule,

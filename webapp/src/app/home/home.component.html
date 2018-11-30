@@ -21,7 +21,8 @@
         <app-mainiframe [url]="url" [iframeSize]="iframeSize" (sendJsonToHome)="showEditorDiv($event)"></app-mainiframe>
     </div>
       <div *ngIf="chatDivShow" class="chatbot-frame-div">
-          <iframe src="https://35.239.8.145/kfca/chat" class="chatbot-frame" frameborder="0"></iframe>
+          <!-- <iframe src="https://35.239.8.145/kfca/chat" class="chatbot-frame" frameborder="0"></iframe> -->
+          <app-virtual-assistant ></app-virtual-assistant>
     </div> 
     <div class="chat-div">
         <img class="nav-chat-icon" (click)="showChatDiv()"  src="../assets/images/chat.svg"/>

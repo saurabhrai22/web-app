@@ -9,7 +9,7 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
-  endpoint1 = 'http://localhost:5002';
+ // endpoint1 = 'http://localhost:5002';
   endpoint = "https://p2cevo-webapp-webservices.azurewebsites.net";
   
   
@@ -23,9 +23,9 @@ export class ApiService {
     return this.httpClient.post(this.endpoint + '/generatedummyticket',{'dataset':ticketObj });
   }
 
-  generateJSONFile(dataSetArr,fileName) {
+  /* generateJSONFile(dataSetArr,fileName) {
     return this.httpClient.post(this.endpoint1 + '/createJsonFile',{'dataset': dataSetArr, 'fileName' : fileName});
-   }
+   } */
 
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

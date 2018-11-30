@@ -1,5 +1,6 @@
 import { Component, OnInit, Pipe, PipeTransform, Input, Output, EventEmitter } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser'
+import { ConfigService } from '../config.service'
 declare var $:any;
 
 @Pipe({name: 'safe'})
@@ -28,15 +29,29 @@ export class MainiframeComponent implements OnInit {
     }
   }
   @Output() public sendJsonToHome = new EventEmitter();
-  constructor() { }
+  constructor(public config:ConfigService) { }
 
   ngOnInit() {
+    
     window.addEventListener('message', (evt) => {
-      if(evt.data.match('p2csettings'))
-     {
-      console.log('Retrived Message: ',JSON.parse(evt.data));
-      this.sendJsonToHome.emit(JSON.parse(evt.data));
-     }
+       /*if(this.config.checkTypeOf(evt.data).match('string')){
+        if(evt.data.match('p2csettings'))
+      {
+        console.log('Retrived Message: ',JSON.parse(evt.data));
+        this.sendJsonToHome.emit(JSON.parse(evt.data));
+      } 
+      }
+    else*/ 
+    if(this.config.checkTypeOf(evt.data).match('object')){
+      if(Object.keys(evt.data).includes("source")){
+        if(evt.data["source"] == "Iframe")
+        {
+          this.sendJsonToHome.emit(evt.data["data"]);
+        }
+        
+      }
+
+    }
    });
   }
 }
