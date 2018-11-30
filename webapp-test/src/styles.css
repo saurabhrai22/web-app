@@ -1,0 +1,23 @@
+body{ top:0;margin:0px;padding:0px; font-family: Arial, Helvetica, sans-serif}
+.top-header{ height:50px; width:100%; background-color:#242A3A; float:left; }
+.content-wrapper{ height:auto; width:100%; float:left; }
+.login-div{ float: left; width: 100%;}
+.login-box{ background-color: #f5f5f5; border-radius: 10px; padding: 20px 50px 20px 50px}
+.nav-profile-icon{ width: 30px;height: auto; float: left; margin-top: 10px; border-radius: 50%;}
+.nav-profile-info{vertical-align:middle;height:30px;margin-top:8px;padding-left:40px;color: white;font-size: 0.9em;}
+.nav-jira-icon{ width: 30px;height: auto; float: left; margin-top: 10px; border-radius: 50%; margin-left:7px; margin-right:7px; float: right; cursor: pointer;}
+.nav-notification-icon{ width: 30px;height: auto; float: left; margin-top: 10px; border-radius: 50%; margin-left:7px; margin-right:7px; float: right; cursor: pointer;}
+.nav-cart-icon{ width: 30px;height: auto; float: left; margin-top: 10px; border-radius: 50%; margin-left:7px; margin-right:7px; float: right; cursor: pointer;}
+.main-iframe{position: absolute; width: 100%; height: 92%; overflow: auto; border: 0; margin:0px; padding:0px}
+.chat-div{ position: fixed; bottom:0px;right: 0px; width: auto;height: auto;margin-right:50px;margin-bottom:25px; cursor: pointer;}
+.chatbot-frame-div{  position: fixed; height: 550px; width: 400px; bottom: 0px; right: 0px; margin-right:50px;margin-bottom:25px; z-index: 999 }
+.chatbot-frame{     width: 100%;height: 100%; }
+.nav-breakpoint-desktop-icon{ width: 30px;height: auto; align-content: center; margin-top: 10px; border-radius: 50%; margin-left:7px; margin-right:7px; float: none; cursor: pointer;}
+.nav-breakpoint-portriat-icon{ width: 30px;height: auto; align-content: center; margin-top: 10px; border-radius: 50%; margin-left:7px; margin-right:7px; float: none; cursor: pointer;}
+.nav-breakpoint-landscape-icon{ width: 30px;height: auto; align-content: center; margin-top: 10px; border-radius: 50%; margin-left:7px; margin-right:7px; float: none; cursor: pointer;}
+.nav-breakpoint-mobile-icon{ width: 30px;height: auto; align-content: center; margin-top: 10px; border-radius: 50%; margin-left:7px; margin-right:7px; float: none; cursor: pointer;}
+.floating-editor{ width: 640px; background-color: #242A3A; position: fixed; border-radius: 15px; left: 2px; margin-top: 55px; border: 1px #e6e6e6 inset; color: White; font-family: arial; float: left;}
+.floating-editor-container{ border: 20px rgba(0,0,0,0) inset;}
+.floating-editor-close-btn{ width: 15px; height: 15px; background-image: url(src/assets/images/close-btn.png); background-size: 15px auto; background-repeat: no-repeat; position: absolute; top: 12px; right:12px; cursor: pointer; float: right;}
+.floating-editor-heading{ font-size: 1.7em; top: 0px;}
+.floating-editor-submit-btn{ margin: 7px 0px 0px 0px; background-color: #B00426; border: 0px; border-radius: 50px; color: white; height: 35px; width: 140px; font-size: 1.2em; cursor: pointer; }
