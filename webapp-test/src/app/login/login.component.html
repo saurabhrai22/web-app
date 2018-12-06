@@ -1,0 +1,38 @@
+<div class="top-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="login-div">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="login-box">
+                    <h2>FCA Login</h2>
+                    <form [formGroup]="lForm" (ngSubmit)="submitValues(lForm.value)">
+                    <div class="form-group">
+                        <label for="username">User Name:</label>
+                        <input type="text" formControlName="username" class="form-control" id="username" required autocomplete="off">
+                      </div>
+                      <div class="form-group">
+                          <label for="password">Password:</label>
+                          <input type="password" formControlName="password" class="form-control" id="password" required autocomplete="off">
+                      </div>
+                      <div class="form-group">
+                        <input type="submit"  class="btn-primary" />
+                      </div>
+                      </form>
+                </div>
+            </div>
+            <div class="col-md-6"></div>
+        </div>
+    </div>
+</div>

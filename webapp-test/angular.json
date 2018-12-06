@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "VATest": {
+    "P2c-webapp": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -13,19 +13,25 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/VATest",
+            "outputPath": "dist/P2c-webapp",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/web.config"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css", 
+              "src/assets/froala-editor/css/froala_editor.pkgd.min.css",
+              "src/assets/froala-editor/css/froala_style.min.css",
+              "src/assets/font-awesome/css/font-awesome.css"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/jquery/dist/jquery.min.js",
+              "./node_modules/froala-editor/js/froala_editor.pkgd.min.js"]
           },
           "configurations": {
             "production": {
@@ -57,18 +63,19 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "VATest:build"
+            "browserTarget": "P2c-webapp:build",
+            "port":4202
           },
           "configurations": {
             "production": {
-              "browserTarget": "VATest:build:production"
+              "browserTarget": "P2c-webapp:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "VATest:build"
+            "browserTarget": "P2c-webapp:build"
           }
         },
         "test": {
@@ -102,7 +109,7 @@
         }
       }
     },
-    "VATest-e2e": {
+    "P2c-webapp-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -111,11 +118,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "VATest:serve"
+            "devServerTarget": "P2c-webapp:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "VATest:serve:production"
+              "devServerTarget": "P2c-webapp:serve:production"
             }
           }
         },
@@ -131,5 +138,5 @@
       }
     }
   },
-  "defaultProject": "VATest"
+  "defaultProject": "P2c-webapp"
 }
