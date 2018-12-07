@@ -17,7 +17,7 @@
             </div>
         </div>
     </div>
-    <div class="content-wrapper">
+    <div class="content-wrapper" [style.width]="iframeSize" >
         <app-mainiframe [url]="url" [iframeSize]="iframeSize" (sendJsonToHome)="showEditorDiv($event)"></app-mainiframe>
     </div>
       <div *ngIf="chatDivShow" class="chatbot-frame-div">

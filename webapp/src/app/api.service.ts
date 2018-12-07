@@ -18,7 +18,7 @@ export class ApiService {
   constructor(private httpClient: HttpClient) { }
    
   createHashapi(fcaId): Observable<any> {
-   return this.httpClient.post(this.nodeServicesEndpoint + '/createHash',{'fcaid':fcaId});
+   return this.httpClient.post(this.nodeServicesEndpoint + '/helper/createHash',{'fcaid':fcaId});
   }
   userCheck(userId) {
     return this.httpClient.get(this.webServicesEndpoint + '/api/UserInfoes/'+userId);
@@ -32,7 +32,7 @@ export class ApiService {
   } */
 
     generateJSONFile(dataSetArr,fileName) {
-    return this.httpClient.post(this.nodeServicesEndpoint + '/createJsonFile',{'dataset': dataSetArr, 'fileName' : fileName});
+    return this.httpClient.post(this.nodeServicesEndpoint + '/helper/createJsonFile',{'dataset': dataSetArr, 'fileName' : fileName});
    }
 
   private handleError<T> (operation = 'operation', result?: T) {
