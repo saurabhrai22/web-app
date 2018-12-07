@@ -23,9 +23,9 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.editorDivShow = false;
-    /* if(localStorage.p2c_fcaHash == undefined ){
+     if(localStorage.p2c_fcaHash == undefined ){
       this.router.navigate(['/login']);
-    }  */
+    }  
     //this.url = "https://auth-dev6b2c.emea.fcagroup.com/content/fiat/fiat-it/it/home.html?wcmmode=disabled";
     //this.url = "http://localhost:3000/pages/fiat_new.html";
     this.url = "https://test-webapp-basefile.azurewebsites.net/fiat.html";
