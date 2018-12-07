@@ -9,23 +9,31 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
- // endpoint1 = 'http://localhost:5002';
-  endpoint = "https://p2cevo-webapp-webservices.azurewebsites.net";
+  //nodeServicesEndpoint = 'http://localhost:5002';
+  //nodeServicesEndpoint = "https://p2cevo-webapp-webservices.azurewebsites.net";
+  nodeServicesEndpoint = "https://p2c-webservices.azurewebsites.net";
+  webServicesEndpoint = "http://p2cevo.azurewebsites.net";
   
   
   constructor(private httpClient: HttpClient) { }
    
   createHashapi(fcaId): Observable<any> {
-   return this.httpClient.post(this.endpoint + '/createhash',{'fcaid':fcaId});
+   return this.httpClient.post(this.nodeServicesEndpoint + '/createHash',{'fcaid':fcaId});
+  }
+  userCheck(userId) {
+    return this.httpClient.get(this.webServicesEndpoint + '/api/UserInfoes/'+userId);
+  }
+  addNewUser(userDetails:object) {
+    return this.httpClient.post(this.webServicesEndpoint + '/api/UserInfoes', userDetails );
   }
 
-  generateTicketapi(ticketObj) {
-    return this.httpClient.post(this.endpoint + '/generatedummyticket',{'dataset':ticketObj });
-  }
+ /*  generateTicketapi(ticketObj) {
+    return this.httpClient.post(this.nodeServicesEndpoint + '/generatedummyticket',{'dataset':ticketObj });
+  } */
 
-  /* generateJSONFile(dataSetArr,fileName) {
-    return this.httpClient.post(this.endpoint1 + '/createJsonFile',{'dataset': dataSetArr, 'fileName' : fileName});
-   } */
+    generateJSONFile(dataSetArr,fileName) {
+    return this.httpClient.post(this.nodeServicesEndpoint + '/createJsonFile',{'dataset': dataSetArr, 'fileName' : fileName});
+   }
 
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

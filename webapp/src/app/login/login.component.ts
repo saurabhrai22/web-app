@@ -36,9 +36,24 @@ export class LoginComponent implements OnInit {
     {
       var fcaval = post.username;
       this.api.createHashapi(fcaval).subscribe((data: {}) => {
-        //console.log('Data from API: ',data);
-        localStorage.p2c_fcaHash = data["md5_val"];
-        this.router.navigate(['/edit']);
+        this.api.userCheck(data["md5_val"]).subscribe((response:{})=>{
+          console.log('UserCheck success..!')
+          console.log('Response for the following: ',response);
+          localStorage.p2c_fcaHash = response["UserID"];
+          this.router.navigate(['/edit']);
+        },(err:any) => {
+          console.log('UserCheck Failed..!')
+          console.log('Error for the following: ',err);
+          let userDetails ={
+            "UserID": data["md5_val"],
+            "status": "true"
+            }
+          this.api.addNewUser(userDetails).subscribe((response:any)=>{
+            console.log('New User Added..!')
+            localStorage.p2c_fcaHash = response["UserID"];
+            this.router.navigate(['/edit']);
+          });
+        })
       });
     }
   }

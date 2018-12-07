@@ -16,6 +16,8 @@ import { LogoutComponent } from './logout/logout.component';
 import { VirtualAssistantComponent } from './virtual-assistant/virtual-assistant.component';
 import { TextEditorComponent } from './text-editor/text-editor.component';
 import { RichtextEditorComponent } from './richtext-editor/richtext-editor.component';
+import { CtaEditorComponent } from './cta-editor/cta-editor.component';
+import { ImageEditorComponent } from './image-editor/image-editor.component';
 
 const appRoutes: Routes = [
   {path: '',	component: HomeComponent},
@@ -39,7 +41,9 @@ const appRoutes: Routes = [
     LogoutComponent,
     VirtualAssistantComponent,
     TextEditorComponent,
-    RichtextEditorComponent
+    RichtextEditorComponent,
+    CtaEditorComponent,
+    ImageEditorComponent
   ],
   imports: [
     BrowserModule,

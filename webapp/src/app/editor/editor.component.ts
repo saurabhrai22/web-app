@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ConfigService } from '../config.service'
 import { ApiService } from '../api.service'
-import { isFormattedError } from '@angular/compiler';
+import { isFormattedError, core } from '@angular/compiler';
+import { HomeComponent } from '../home/home.component'
 declare var $:any;
 
 @Component({
@@ -12,47 +13,44 @@ declare var $:any;
 
 
 export class EditorComponent implements OnInit {
-  public p2cSettings:any ;
-  public p2cResource:any ;
-  public p2cData:any ;
-  public p2cDataHtml:any ;
+  public p2cData:any;
   public compDataNew:any;
   public editorTitle:any;
   public editorType:any;
-  
-  @Input('compData') set compData(compData:any){
-    this.compDataNew = compData;
+  public getValueFlag:boolean = false; 
+  public compObject:object;
+  public keyOfElement:string;
+  @Input('compData') set setValueToEditor(compData:any){
+
+    
     EditorComponent.prototype.p2cData = this.config.metaDataFromIframe.p2cdata;
-    EditorComponent.prototype.p2cResource = this.config.metaDataFromIframe.p2cresource;
+    EditorComponent.prototype.compDataNew = compData;
     EditorComponent.prototype.editorType = compData['type'];
     EditorComponent.prototype.editorTitle = this.p2cData.split('_')[1];
-    //console.log('From Input: ',this.p2cData);
-   // EditorComponent.prototype.setValueToEditor(compData);
+
     
-  };
-  @Output() hideEditorDiv = new EventEmitter();
-  @Output() generateTicket = new EventEmitter();
-  constructor(public config:ConfigService, public externalApi:ApiService) { }
-
-  
-  ngOnInit() {
-  }
-
-  setValueToEditor(compData)  {
-
+    console.log('Image comp: ',compData);
+    
     if(Object.keys(compData).includes("type")){
-      console.log('Set Editor: ',this.p2cData);
+
       if(compData['type'] == "text"){
+        EditorComponent.prototype.keyOfElement = this.config.metaDataFromIframe.p2cresourcemetadata[this.config.metaDataFromIframe["p2cdata"]].key
         EditorComponent.prototype.editorType = compData['type'];
+        EditorComponent.prototype.compObject = {
+          "key": compData['type'],
+          "htmldata": this.config.metaDataFromIframe.p2cdatahtml
+        }
         console.log("Text Component");
-        console.log('Key: ', compData['key']);
-        console.log('Type: ', compData['type']);
-        console.log('Value: ', compData['value']);
       }
       else if(compData['type'] == "richtext"){
         console.log("Richtext Component");
+        EditorComponent.prototype.keyOfElement = this.config.metaDataFromIframe.p2cresourcemetadata[this.config.metaDataFromIframe["p2cdata"]].key
         EditorComponent.prototype.editorType = compData['type'];
         EditorComponent.prototype.editorTitle = this.p2cData.split('_')[1];
+        EditorComponent.prototype.compObject = {
+          "key": compData['type'],
+          "htmldata": this.config.metaDataFromIframe.p2cdatahtml
+        }
        /*  document.getElementById('p2cdatahtml').innerHTML = compData['value'];
         $('#p2cdatahtml').froalaEditor({
           enter: $.FroalaEditor.ENTER_BR,
@@ -67,9 +65,19 @@ export class EditorComponent implements OnInit {
       }
     }
     else if(Object.keys(compData).includes("desktop")){
+      EditorComponent.prototype.editorType = "desktop";
       console.log("Image Component");
+      console.log('Image comp: ',compData);
+     // EditorComponent.editorType = compData['type'];
     }
     else if(Object.keys(compData).includes("p2c_label")){
+      EditorComponent.prototype.keyOfElement = this.config.metaDataFromIframe.p2cresourcemetadata[this.config.metaDataFromIframe["p2cdata"]]["p2c_label"].key
+      EditorComponent.prototype.editorType = "p2c_label";
+      console.log('p2c_label: ',compData["p2c_label"]);
+      EditorComponent.prototype.compObject = {
+        "key": compData['p2c_label']['type'],
+        "htmldata": this.config.metaDataFromIframe.p2cdatahtml
+      }
       console.log("CTA Component");
     }
     /* this.p2cDataHtml = compData.p2cdatahtml
@@ -77,70 +85,128 @@ export class EditorComponent implements OnInit {
     /* document.getElementById('p2cdatahtml').innerHTML = compData.p2cdatahtml;
     ;  */
 
-  }
-  SubmitVal(){
-    let updatedData  = $('#p2cdatahtml').froalaEditor('html.get');
-    //console.log('Updated html: ',$('#p2cdatahtml').froalaEditor('html.get'));
-    let fullCustAttr = '[data-p2c-resource="'+this.p2cResource+'"] ' +'[data-p2c="'+this.p2cData+'"]';
-    let dataToSender = { fullcustattr : fullCustAttr , updateddata : updatedData }
-    console.log("Data b4 sending to iframe: ",dataToSender);
-    window.frames[0].postMessage(JSON.stringify(dataToSender), '*');
-    this.hideEditorDiv.emit(false);
-    /* 
-    var dataSetArr =  this.config.dataSetArr;
-    //HomeComponent comp = new HomeComponent.prototype();
-    console.log(this.compDataNew);
-    var dataSet = { pageurl: "http://www.fiat.it", p2cresource : this.compDataNew.p2cresource, jcrContent: this.compDataNew.p2cresourceobject.resource,  source: "aem", p2csettings : this.compDataNew.p2csettings, update: {} }
-    let arr1 = { oldvalue : this.compDataNew.p2cdatahtml, newvalue : $('#p2cdatahtml').froalaEditor('html.get') };
-    var newDataObject = this.compDataNew.p2cresourceobject[this.compDataNew.p2cdata].split(':')[0];
-    console.log('New Data Object: ',newDataObject);
-  console.log('Data Set Object: ',dataSet);
-  console.log('Searched Imdex: ',EditorComponent.prototype.searchInDatasetArr(this.compDataNew.p2cresource,dataSetArr));
-  var searchedIndex = EditorComponent.prototype.searchInDatasetArr(this.compDataNew.p2cresource,dataSetArr)
-  if( searchedIndex != undefined )
-  {	
-    if(dataSetArr[searchedIndex]["update"][newDataObject] != undefined){
-      dataSetArr[searchedIndex]["update"][newDataObject]["newvalue"] = $('#p2cdatahtml').froalaEditor('html.get');
-    }
-    else{
-      dataSetArr[searchedIndex]["update"][newDataObject] = arr1 ;
-      //dataSet["update"][newDataObject] 
-    }
+
+
+
+    //EditorComponent.prototype.setValueToEditor(compData);
+
+
     
+  };
+  @Output() hideEditorDiv = new EventEmitter();
+  @Output() generateTicket = new EventEmitter();
+  constructor(public config:ConfigService, public externalApi:ApiService) { }
+
+  
+  ngOnInit() {
+    console.log('dataSetArrForRPA: ',this.config.dataSetArrForRPA);
   }
-  else
-  {
-    dataSet["update"][newDataObject] = arr1;
-    dataSetArr.push(dataSet);
-  }
-  let fullCustAttr;
-  let p2cResource =this.compDataNew.p2cresource
-  let p2cData = this.compDataNew.p2cdata;
+
+  
+  SubmitVal(dataFromComp){
+    console.log('EditorComponent.prototype.keyOfElement: ',EditorComponent.prototype.keyOfElement);
+    //This will send data to iframe 
+    let fullCustAttr = '[data-p2c-resource="'+this.config.metaDataFromIframe.p2cresource+'"] ' +'[data-p2c="'+this.config.metaDataFromIframe.p2cdata+'"]';
+    let dataToSender = { fullcustattr : fullCustAttr , customobject : dataFromComp["customobject"] }
+    
+    //document.getElementsByTagName("iframe")[0]//[0].postMessage(JSON.stringify(dataToSender), '*');
+    //window.frames[1].postMessage(JSON.stringify(dataToSender), '*');
+    $.each(document.getElementsByTagName("iframe"),function(index,data){
+      if(data.id == "main-iframe-id")
+      {
+        window.frames[index].postMessage(JSON.stringify(dataToSender), '*');
+      }
+      else{
+        console.log('Iframe not matched..!');
+      }
+    });
+    
+    
+    var metaDataFromIframe = this.config.metaDataFromIframe;
+    var dataSetArrForRPA = this.config.dataSetArrForRPA;
+    var keyOfElement = EditorComponent.prototype.keyOfElement;
+    var dataSet = { pageurl: localStorage.getItem("p2c_url") , p2cresource : metaDataFromIframe["p2cresource"], jcrContent: metaDataFromIframe["p2cresourcemetadata"]["resource"],  source: "aem", update: {} }
+    var searchedIndex = this.config.searchInDatasetArr(metaDataFromIframe.p2cresource,dataSetArrForRPA)
+
+    if( searchedIndex != undefined )
+    {	
+        dataSetArrForRPA[searchedIndex]["update"][keyOfElement] = dataFromComp ;
+    }
+     else
+    {
+      dataSet["update"][keyOfElement] = dataFromComp;
+      dataSetArrForRPA.push(dataSet);
+    }
+    console.log("dataSetArrForRPA Editor Comp: ",dataSetArrForRPA);
+   
+    this.hideEditorDiv.emit(false);
+    //this.generateTicket.emit("send"); 
+
+    //EditorComponent.prototype.updatedData  = $('#p2cdatahtml').froalaEditor('html.get');
+    //let updatedDataNew = EditorComponent.prototype.updatedData;
+    //console.log('Updated html: ',$('#p2cdatahtml').froalaEditor('html.get'));
+   /*  console.log('updatedDataNew: ',updatedDataNew)
+    let fullCustAttr = '[data-p2c-resource="'+this.p2cResource+'"] ' +'[data-p2c="'+this.p2cData+'"]';
+    let dataToSender = { fullcustattr : fullCustAttr , updateddata : updatedDataNew }
+    console.log("Data b4 sending to iframe: ",dataToSender);
+    window.frames[0].postMessage(JSON.stringify(dataToSender), '*'); */
+   
+
+
+
+
+
+
+
+
+
+
+
+    
+    /* var dataSetArrForRPA =  this.config.dataSetArrForRPA;
+    //HomeComponent comp = new HomeComponent.prototype();
+    //console.log(this.compDataNew); 
+    var metaDataFromIframe = this.config.metaDataFromIframe ;
+    console.log('comp Smarty: ',metaDataFromIframe); 
+    var dataSet = { pageurl: "http://www.fiat.it", p2cresource : metaDataFromIframe["p2cresource"], jcrContent: metaDataFromIframe["p2cresourcemetadata"]["resource"],  source: "aem", update: {} }
+    let arr1 = { oldvalue : metaDataFromIframe.p2cdatahtml, newvalue : dataFromComp["newvalue"] };
+    var newDataObject = metaDataFromIframe.p2cresourcemetadata[metaDataFromIframe["p2cdata"]].key;
+    console.log('New Data Object: ',newDataObject);
+    console.log('Data Set Object: ',dataSet);
+    console.log('Searched Imdex: ',this.config.searchInDatasetArr(metaDataFromIframe.p2cresource,dataSetArrForRPA));
+    var searchedIndex = this.config.searchInDatasetArr(metaDataFromIframe.p2cresource,dataSetArrForRPA)
+    if( searchedIndex != undefined )
+    {	
+      if(dataSetArrForRPA[searchedIndex]["update"][newDataObject] != undefined){
+        dataSetArrForRPA[searchedIndex]["update"][newDataObject]["newvalue"] =  dataFromComp["newvalue"] 
+      }
+      else{
+        dataSetArrForRPA[searchedIndex]["update"][newDataObject] = arr1 ;
+        //dataSet["update"][newDataObject] 
+      }
+      
+    }
+    else
+    {
+      dataSet["update"][newDataObject] = arr1;
+      dataSetArrForRPA.push(dataSet);
+    }
+  //let fullCustAttr;
+  let p2cResource =metaDataFromIframe.p2cresource
+  let p2cData = metaDataFromIframe.p2cdata;
 	fullCustAttr = '[data-p2c-resource="'+p2cResource+'"]';//[data-p2c="'+p2cData+'"]';
   let updatedData = $('#p2cdatahtml').froalaEditor('html.get');
-  let dataToSender = { fullcustattr : fullCustAttr , updateddata : updatedData }
-  console.log('dataSetArr:  ',dataSetArr);
+  //let dataToSender = { fullcustattr : fullCustAttr , updateddata : updatedData }
+  console.log('dataSetArr:  ',dataSetArrForRPA);
   window.frames[0].postMessage(JSON.stringify(dataToSender), '*');
   this.hideEditorDiv.emit(false);
   
-  let fileName = $.now();
-  this.externalApi.generateJSONFile(dataSetArr,fileName).subscribe((data: {}) => {
+  let fileName = $.now(); */
+ /*   this.externalApi.generateJSONFile(dataSetArrForRPA,fileName).subscribe((data: {}) => {
     console.log('Data from API: ',data);
-  });
+  });  */
   
-  console.log('Length of update: ',dataSetArr[0]["update"].hasOwnProperty.length);
-  console.log('keys of object: ',Object.keys(dataSetArr[0]["update"])[0]);
-  console.log('Type of : ',typeof dataSetArr[0]["update"] );
-  //console.log('keys of update: ',dataSetArr["update"].key);
-  this.generateTicket.emit("send"); */
+  
   } 
-  searchInDatasetArr(val1 , myArray){
-	
-    for (var i=0; i < myArray.length ; i++) {
-        if (myArray[i].p2cresource == val1) {
-            return i;
-        }
-    }
-	
-}
+  
 }

@@ -1,16 +1,24 @@
 import { Injectable } from '@angular/core';
-import { stringify } from '@angular/core/src/render3/util';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConfigService {
-  dataSetArr: Array<any> = [] ;
+  dataSetArrForRPA: Array<any> = [] ;
+  dataSetArrForDOM: Array<any> = [] ;
   metaDataFromIframe:any;
   constructor() { }
 
   checkTypeOf(data:any)
   {
     return JSON.stringify(typeof data);
+  }
+  searchInDatasetArr(val1 , myArray){
+	
+    for (var i=0; i < myArray.length ; i++) {
+        if (myArray[i].p2cresource == val1) {
+            return i;
+        }
+    }
   }
 }

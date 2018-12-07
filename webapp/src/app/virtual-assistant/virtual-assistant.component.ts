@@ -36,14 +36,14 @@ export class VirtualAssistantComponent implements OnInit {
                     {
                         market: "IT",
                         brand: "FIAT",
-                        language: "IT"
-                    }, 
+                        language: "english"
+                    }/* , 
                     iFrameVASize:
                     {
                         height: "500px",
                         width: "500px",
                         class: "vaclass"
-                    }
+                    } */
                   }
                 }
                 console.log('Message Sent..!');

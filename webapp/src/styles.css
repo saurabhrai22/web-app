@@ -20,5 +20,9 @@ body{ top:0;margin:0px;padding:0px; font-family: Arial, Helvetica, sans-serif}
 .floating-editor{ width: 640px; background-color: #242A3A; position: fixed; border-radius: 15px; left: 2px; margin-top: 55px; border: 1px #e6e6e6 inset; color: White; font-family: arial; float: left;}
 .floating-editor-container{ border: 20px rgba(0,0,0,0) inset;}
 .floating-editor-close-btn{ width: 15px; height: 15px; background-image: url(src/assets/images/close-btn.png); background-size: 15px auto; background-repeat: no-repeat; position: absolute; top: 12px; right: 12px; cursor: pointer; float: right;}
-.floating-editor-heading{ font-size: 1.7em; top: 0px;}
-.floating-editor-submit-btn{ margin: 7px 0px 0px 0px; background-color: #B00426; border: 0px; border-radius: 50px; color: white; height: 35px; width: 140px; font-size: 1.2em; cursor: pointer; }
+.floating-editor-heading{ font-size: 1.7em; top: 0px; float: left;}
+.floating-editor-submit-btn{ margin: 20px 0px 0px 0px; background-color: #B00426; border: 0px; border-radius: 50px; color: white; height: 35px; width: 140px; font-size: 1.2em; cursor: pointer; }
+.floating-text-editor{ height: 30px; border-radius: 9px; outline: 0px; border: 1px transparent solid; font-size: 17px; padding-left: 8px; width: 98%; color:black;}
+.floating-cta-label-editor{ height: 30px; border-radius: 9px; outline: 0px; border: 1px transparent solid; font-size: 17px; padding-left: 8px; width: 98%; color:black;}
+.floating-editor-subtitle{ float: left; margin-top: 5px; clear: both; font-size: 17px; margin-bottom: 10px;}
+.floating-editor-components{float: left; clear: both; margin-top: 0px; width: 100%; margin-bottom: 15px;}

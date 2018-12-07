@@ -3,8 +3,12 @@
         <!-- <p>P2c Settings: <span style="font-weight: bolder;">{{ p2cSettings }}</span></p>
         <p>P2c Resource: <span style="font-weight: bolder;">{{ p2cResource }}</span></p>
         <p>P2c Data: <span style="font-weight: bolder;">{{ p2cData }}</span></p> -->
-        <p>Editing {{ editorTitle | titlecase }} : 
-                <app-richtext-editor [textvalue]="compDataNew['value']" *ngIf="editorType == 'richtext'"></app-richtext-editor>
-        </p>
-        <!-- <button type="submit" class="floating-editor-submit-btn" (click)="SubmitVal()">Submit</button> --> 
+        <span class="floating-editor-subtitle">Editing {{ editorTitle | titlecase }} : </span>
+        <div class="floating-editor-components">
+                <app-text-editor [textObject]="compObject"  (emitUpdateValue)="SubmitVal($event)" *ngIf="editorType == 'text'"></app-text-editor>
+                <app-richtext-editor [richTextObject]="compObject"  (emitUpdateValue)="SubmitVal($event)"  *ngIf="editorType == 'richtext'"></app-richtext-editor>
+                <app-cta-editor [ctaObject]="compObject"  (emitUpdateValue)="SubmitVal($event)" *ngIf="editorType == 'p2c_label'" ></app-cta-editor>
+                <app-image-editor  *ngIf="editorType == 'desktop'"></app-image-editor>
+        </div>
+        
 </div>

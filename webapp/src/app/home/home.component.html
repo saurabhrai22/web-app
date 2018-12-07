@@ -7,7 +7,7 @@
                     <span>Fiat Italy</span></p>
                 </div>
                 <div class="col-md-6" align="center">
-                        <app-breakpoints (breakpointsEvents)="changeIframeWidth($event)" (breakpointsEvents)="closeEditorDiv()" ></app-breakpoints>
+                        <app-breakpoints (breakpointsEvents)="changeIframeWidth($event)" (breakpointsEvents)="closeEditorDiv(false)" ></app-breakpoints>
                 </div>
                 <div class="col-md-3">
                         <img class="nav-cart-icon"  src="../assets/images/Shopping_OFF.SVG"/>
@@ -24,9 +24,9 @@
           <!-- <iframe src="https://35.239.8.145/kfca/chat" class="chatbot-frame" frameborder="0"></iframe> -->
           <app-virtual-assistant ></app-virtual-assistant>
     </div> 
-    <div class="chat-div">
+    <!-- <div class="chat-div">
         <img class="nav-chat-icon" (click)="showChatDiv()"  src="../assets/images/chat.svg"/>
-    </div>
+    </div> -->
     <!-- <script src=""></script> -->
     <!-- <script src="https://13.94.175.214/kfca/chatbotFrameIntegration.js"></script>  -->
     <div *ngIf="editorDivShow" class="floating-editor">

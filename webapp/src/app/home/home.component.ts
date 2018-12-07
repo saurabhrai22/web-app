@@ -23,11 +23,12 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.editorDivShow = false;
-    if(localStorage.p2c_fcaHash == undefined ){
+     if(localStorage.p2c_fcaHash == undefined ){
       this.router.navigate(['/login']);
-    } 
-    this.url = "https://auth-dev6b2c.emea.fcagroup.com/content/fiat/fiat-it/it/home.html?wcmmode=disabled";
+    }  
+    //this.url = "https://auth-dev6b2c.emea.fcagroup.com/content/fiat/fiat-it/it/home.html?wcmmode=disabled";
     //this.url = "http://localhost:3000/pages/fiat_new.html";
+    this.url = "https://test-webapp-basefile.azurewebsites.net/fiat.html";
     window.addEventListener('message',  (evt) => {
       
       if(this.config.checkTypeOf(evt.data).match('string'))
@@ -44,6 +45,72 @@ export class HomeComponent implements OnInit {
     }
     else if(this.config.checkTypeOf(evt.data).match('object')){
       //console.log('Object iframe: ',evt.data);
+      
+      var vaMessage = evt.data;
+        if(Object.keys(vaMessage).includes("source")){
+          if(vaMessage["source"] == "iframe")
+          {
+
+            var waResponsetoVa = { 
+              source: "WA",
+              event: "wa_init_response",
+              data: {
+                userInfo:
+                {
+                    firstName: "John",
+                    lastName: "Smith",
+                    companyId: "123456",
+                    email: "john.smith@accenture.com"
+                },
+                brandDetails:
+                {
+                    market: "IT",
+                    brand: "FIAT",
+                    language: "english"
+                }
+              }
+            }
+            waResponsetoVa.data["metadata"] = vaMessage.newCanvasMetadata;
+            console.log("waResponsetoVa",waResponsetoVa);
+            $.each(document.getElementsByTagName("iframe"),function(index,data){
+              if(data.id == "chatbot-frame")
+              {
+                window.frames[index].postMessage(waResponsetoVa, '*');
+              }
+            });
+
+          }
+          else if(vaMessage["source"] == "VA"){
+            console.log("vaMessage: ",vaMessage);
+            if(vaMessage["event"] == "va_init")
+            {
+              $.each(document.getElementsByTagName("iframe"),function(index,data){
+                if(data.id == "main-iframe-id")
+                {
+                  window.frames[index].postMessage("getNewCanvas", '*');
+                }
+              });
+              
+              
+              //
+            /*   for (let index = 0; index < document.getElementsByTagName("iframe").length; index++) {
+                if(document.getElementsByTagName("iframe")[index].id == "chatbot-frame")
+                {
+                  console.log('Message Sent..!',index);
+                  window.frames[index].postMessage(waResponsetoVa, '*');
+                }
+                else{
+                  console.log('Iframe not matched..!');
+                }
+              }
+              console.log('document.getElementsByTagName("iframe")',document.getElementsByTagName("iframe"));
+               */
+             
+
+            }
+          
+        }
+    }
     }
     });
   }
@@ -107,7 +174,16 @@ export class HomeComponent implements OnInit {
     this.chatDivShow = true;
   }
    generateTiciet(send){
-     console.log('Ticket Generated..!');
+     /* this.config.dataSetArrForRPA.forEach(element => {
+      console.log('element',element["update"]);
+      Object.keys(element["update"]).forEach(keys => {
+        delete element["update"][keys]["customobject"];
+      });
+     }); */
+     let fileName = $.now(); 
+     this.externalApi.generateJSONFile(this.config.dataSetArrForRPA,fileName).subscribe((data: {}) => {
+       console.log('Data from API: ',data);
+     }); 
    /*  var ticketData = { user_id: localStorage.p2c_fcaHash, ticket_num :'FCATK-123456', status: '2', notify:'1' }
     this.api.generateTicketapi(JSON.stringify(ticketData)).subscribe((data: {}) => {
      console.log('Ticket Generated .!',data);
