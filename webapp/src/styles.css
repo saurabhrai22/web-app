@@ -26,3 +26,6 @@ body{ top:0;margin:0px;padding:0px; font-family: Arial, Helvetica, sans-serif}
 .floating-cta-label-editor{ height: 30px; border-radius: 9px; outline: 0px; border: 1px transparent solid; font-size: 17px; padding-left: 8px; width: 98%; color:black;}
 .floating-editor-subtitle{ float: left; margin-top: 5px; clear: both; font-size: 17px; margin-bottom: 10px;}
 .floating-editor-components{float: left; clear: both; margin-top: 0px; width: 100%; margin-bottom: 15px;}
+.notification-div{ width: 300px; background-color: #242A3A; position: fixed; border-radius: 15px; right: 2px; margin-top: 52px; border: 1px #e6e6e6 inset; color: White; font-family: arial; float: left;}
+.notification-container{ border-top: 10px rgba(0,0,0,0) inset;border-bottom: 10px rgba(0,0,0,0) inset;}
+.floating-editor-close-btn{ width: 12px; height: 12px; background-image: url(src/assets/images/close-btn.png); background-size: 12px auto; background-repeat: no-repeat; position: absolute; top: 12px; right: 12px; cursor: pointer; float: right;}

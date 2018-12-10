@@ -18,6 +18,8 @@ import { TextEditorComponent } from './text-editor/text-editor.component';
 import { RichtextEditorComponent } from './richtext-editor/richtext-editor.component';
 import { CtaEditorComponent } from './cta-editor/cta-editor.component';
 import { ImageEditorComponent } from './image-editor/image-editor.component';
+import { OldNewToggleComponent } from './old-new-toggle/old-new-toggle.component';
+import { NotificaionBoxComponent } from './notificaion-box/notificaion-box.component';
 
 const appRoutes: Routes = [
   {path: '',	component: HomeComponent},
@@ -43,7 +45,9 @@ const appRoutes: Routes = [
     TextEditorComponent,
     RichtextEditorComponent,
     CtaEditorComponent,
-    ImageEditorComponent
+    ImageEditorComponent,
+    OldNewToggleComponent,
+    NotificaionBoxComponent
   ],
   imports: [
     BrowserModule,

@@ -9,11 +9,11 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
-  //nodeServicesEndpoint = 'http://localhost:5002';
-  //nodeServicesEndpoint = "https://p2cevo-webapp-webservices.azurewebsites.net";
-  nodeServicesEndpoint = "https://p2c-webservices.azurewebsites.net";
-  webServicesEndpoint = "http://p2cevo.azurewebsites.net";
   
+  //nodeServicesEndpoint = "https://p2cevo-webapp-webservices.azurewebsites.net";
+  nodeServicesEndpoint = "http://p2c-webservices.azurewebsites.net";
+  webServicesEndpoint = "http://p2cevo.azurewebsites.net";
+  nodeServicesEndpoint1 = "http://localhost:5005";
   
   constructor(private httpClient: HttpClient) { }
    
@@ -26,14 +26,39 @@ export class ApiService {
   addNewUser(userDetails:object) {
     return this.httpClient.post(this.webServicesEndpoint + '/api/UserInfoes', userDetails );
   }
+  
+  generateTicketApi(ticketDetails:object){
+    return this.httpClient.post(this.nodeServicesEndpoint +'/jira/createUpdateCanvasTicket', ticketDetails);
+  }
+
+  generateJSONFile(dataSetArr,fileName) {
+    return this.httpClient.post(this.nodeServicesEndpoint + '/helper/createJsonFile',{'dataset': dataSetArr, 'fileName' : fileName});
+   }
+  uploadFileToJira(ticketNum:string,fileName:string){
+    return this.httpClient.post(this.nodeServicesEndpoint + '/jira/uploadFileToJira',{'data': {'ticketNum':ticketNum,'fileName':fileName}});
+  }
+
+  addNewTicketToDB(newTicketDetails:object){
+    return this.httpClient.post(this.webServicesEndpoint + '/api/TcktDetails',newTicketDetails);
+  }
+
+  changeTicketStatusInJira(ticketStatus:object)
+  {
+    return this.httpClient.post(this.nodeServicesEndpoint + '/jira/changeJiraStatus',ticketStatus);
+  }
+  getAllTickets(userId) {
+    return this.httpClient.get(this.webServicesEndpoint + '/api/TcktDetails?userId='+userId);
+  }
 
  /*  generateTicketapi(ticketObj) {
     return this.httpClient.post(this.nodeServicesEndpoint + '/generatedummyticket',{'dataset':ticketObj });
   } */
 
-    generateJSONFile(dataSetArr,fileName) {
+    /* generateJSONFile(dataSetArr,fileName) {
     return this.httpClient.post(this.nodeServicesEndpoint + '/helper/createJsonFile',{'dataset': dataSetArr, 'fileName' : fileName});
    }
+ */
+   
 
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

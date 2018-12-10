@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class ConfigService {
   dataSetArrForRPA: Array<any> = [] ;
   dataSetArrForDOM: Array<any> = [] ;
+  ticket:Array<object>;
   metaDataFromIframe:any;
   constructor() { }
 

@@ -57,6 +57,7 @@ export class RichtextEditorComponent implements OnInit {
       "oldvalue": this.oldValue,
       "newvalue": this.newValue,
       "customobject": {
+        "p2cresource":metaDataFromIframe["p2cresource"],
         "p2cdata": metaDataFromIframe["p2cdata"],
         "type": "richtext",
         "oldDOM" :  this.oldDOM,

@@ -42,6 +42,7 @@ export class CtaEditorComponent implements OnInit {
       "oldbuttonlink": this.oldbuttonLink,
       "newbuttonlink": this.newbuttonLink,
       "customobject": {
+        "p2cresource":metaDataFromIframe["p2cresource"],
         "p2cdata": metaDataFromIframe["p2cdata"],
         "type": "button",
         "oldDOM" :  this.oldDOM,

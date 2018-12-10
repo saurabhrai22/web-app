@@ -8,7 +8,7 @@
                 <app-text-editor [textObject]="compObject"  (emitUpdateValue)="SubmitVal($event)" *ngIf="editorType == 'text'"></app-text-editor>
                 <app-richtext-editor [richTextObject]="compObject"  (emitUpdateValue)="SubmitVal($event)"  *ngIf="editorType == 'richtext'"></app-richtext-editor>
                 <app-cta-editor [ctaObject]="compObject"  (emitUpdateValue)="SubmitVal($event)" *ngIf="editorType == 'p2c_label'" ></app-cta-editor>
-                <app-image-editor  *ngIf="editorType == 'desktop'"></app-image-editor>
+                <app-image-editor  *ngIf="editorType == 'desktopsad'"></app-image-editor>
         </div>
         
 </div>

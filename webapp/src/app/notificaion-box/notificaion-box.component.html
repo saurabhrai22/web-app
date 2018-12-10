@@ -1,0 +1,6 @@
+<div class="notification-container">
+ <p style="font-size: 15px;margin-left: 10px;margin-bottom: 10px;" >Notifications</p>
+    <div  *ngFor="let ticketDetails of allTickets" style="width: 100%;height: 40px;background-color: #383c48;border-top: 2px solid #242a3a;cursor: pointer;">
+      <p  style="float: left;margin-left:15px;margin-top: 10px;">{{ticketDetails.ticket_num}}</p>
+      </div>
+</div>

@@ -7,6 +7,7 @@ import { Component, OnInit, Input, Output, EventEmitter  } from '@angular/core';
 })
 export class BreakpointsComponent implements OnInit {
   @Output() public breakpointsEvents = new EventEmitter();
+  @Output() public ReloadiFrameForVA = new EventEmitter();
   public desktop:string ="../assets/images/desktop_active.png";
   public portriat:string ="../assets/images/portrait_inactive.png";
   public landscape:string ="../assets/images/landscape_inactive.png";
@@ -44,6 +45,9 @@ changeToMobile() {
   this.portriat ="../assets/images/portrait_inactive.png";
   this.landscape ="../assets/images/landscape_inactive.png";
   this.mobile ="../assets/images/mobile_active.png";
+}
+reloadiFrameforVA(){
+  this.ReloadiFrameForVA.emit({source:"VA",event:"reloadiFrame",data:{url:"https://www.fiat.it/offerte",breakpoint:"100%"}});
 }
 
 }

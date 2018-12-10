@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router'
-import { ApiService } from '../api.service'
-import { ConfigService } from '../config.service'
+import { Router } from '@angular/router';
+import { ApiService } from '../api.service';
+import { ConfigService } from '../config.service';
+
 declare var $:any ;
 
 
@@ -16,12 +17,28 @@ export class HomeComponent implements OnInit {
   url: String;
   public chatDivShow:boolean = false;
   public editorDivShow = false;
+  public notificationDivShow = false;
+  public cartDivShow = false;
   public iframeSize ;
   public compData ;
-  constructor( public externalApi:ApiService, public router:Router, public config:ConfigService ) { }
-
+  public notificationIcon = "../assets/images/Notification_OFF.SVG";
+  public cartIcon = "../assets/images/Shopping_OFF.SVG";
+  constructor( public externalApi:ApiService, public router:Router, public config:ConfigService ) {  }
 
   ngOnInit() {
+   /*  console.log('Date.now()',Date.now());
+    var date = "\/Date("+Date.now()+")\/"
+    var nowDate = new Date(parseInt(date.substr(6)));
+    console.log("1: ",nowDate.getFullYear());
+    console.log("2: ",nowDate.getMonth());
+    console.log("3: ",nowDate.getDate())
+    console.log("4: ",nowDate.getHours())
+    console.log("5: ",nowDate.getMinutes())
+    console.log("6: ",nowDate.getSeconds())
+    console.log("7: ",nowDate.getDate) */
+     // 2018-12-10T12:27:10+05:30
+    //nowDate.format("UTC:yyyy-mm-dd'T'HH:MM:ss'Z'");
+
     this.editorDivShow = false;
      if(localStorage.p2c_fcaHash == undefined ){
       this.router.navigate(['/login']);
@@ -48,37 +65,38 @@ export class HomeComponent implements OnInit {
       
       var vaMessage = evt.data;
         if(Object.keys(vaMessage).includes("source")){
-          if(vaMessage["source"] == "iframe")
+          if(vaMessage["source"] == "Iframe")
           {
-
-            var waResponsetoVa = { 
-              source: "WA",
-              event: "wa_init_response",
-              data: {
-                userInfo:
-                {
-                    firstName: "John",
-                    lastName: "Smith",
-                    companyId: "123456",
-                    email: "john.smith@accenture.com"
-                },
-                brandDetails:
-                {
-                    market: "IT",
-                    brand: "FIAT",
-                    language: "english"
+            if(vaMessage["event"] == "newCanvasData"){
+              var waResponsetoVa = { 
+                source: "WA",
+                event: "wa_init_response",
+                data: {
+                  userInfo:
+                  {
+                      firstName: "John",
+                      lastName: "Smith",
+                      companyId: "123456",
+                      email: "john.smith@accenture.com"
+                  },
+                  brandDetails:
+                  {
+                      market: "IT",
+                      brand: "FIAT",
+                      language: "english"
+                  }
                 }
               }
-            }
-            waResponsetoVa.data["metadata"] = vaMessage.newCanvasMetadata;
-            console.log("waResponsetoVa",waResponsetoVa);
-            $.each(document.getElementsByTagName("iframe"),function(index,data){
-              if(data.id == "chatbot-frame")
-              {
-                window.frames[index].postMessage(waResponsetoVa, '*');
-              }
-            });
+              waResponsetoVa.data["metadata"] = vaMessage.newCanvasMetadata;
+              console.log("waResponsetoVa",waResponsetoVa);
+              $.each(document.getElementsByTagName("iframe"),function(index,data){
+                if(data.id == "chatbot-frame")
+                {
+                  window.frames[index].postMessage(waResponsetoVa, '*');
+                }
+              });
 
+            }
           }
           else if(vaMessage["source"] == "VA"){
             console.log("vaMessage: ",vaMessage);
@@ -123,6 +141,7 @@ export class HomeComponent implements OnInit {
     }
 	
 }
+
 
   showEditorDiv(dataFromIframe)
   {
@@ -173,17 +192,50 @@ export class HomeComponent implements OnInit {
   {
     this.chatDivShow = true;
   }
-   generateTiciet(send){
+  submitChanges(){
      /* this.config.dataSetArrForRPA.forEach(element => {
       console.log('element',element["update"]);
       Object.keys(element["update"]).forEach(keys => {
         delete element["update"][keys]["customobject"];
       });
      }); */
-     let fileName = $.now(); 
-     this.externalApi.generateJSONFile(this.config.dataSetArrForRPA,fileName).subscribe((data: {}) => {
-       console.log('Data from API: ',data);
-     }); 
+    let fileName = $.now(); 
+     this.externalApi.generateJSONFile(this.config.dataSetArrForRPA,fileName).subscribe((generateJSONFileRes: {}) => {
+       if(generateJSONFileRes["status"] == "success"){
+        this.externalApi.generateTicketApi({ ticketDetails :"string" }).subscribe((generateTicketApiRes:{})=>{
+          if(generateTicketApiRes["status"] == "success"){
+            this.externalApi.uploadFileToJira(generateTicketApiRes["data"]["key"],"public/json/"+fileName+".json").subscribe((uploadFileToJiraData:{})=>{
+              if(generateTicketApiRes["status"] == "success"){
+              this.externalApi.changeTicketStatusInJira({data:{ticketNum:generateTicketApiRes["data"]["key"],status:"Req Completed"}}).subscribe((changeTicketStatusInJiraRes:{})=>{
+                console.log("changeTicketStatusInJiraRes",changeTicketStatusInJiraRes);
+                if(changeTicketStatusInJiraRes["status"] == "success"){
+                  this.externalApi.userCheck(localStorage.getItem("p2c_fcaHash")).subscribe((userCheckRes:{})=>{
+                    console.log('userCheckRes: ',userCheckRes["ID"]);
+                    var addNewTicketDetails = { UserId : userCheckRes["ID"],
+                    TicketNum: generateTicketApiRes["data"]["key"],
+                    StatusID: "1",
+                    Flag: "false",
+                    Timestamp	: "2018-12-10T12:27:10+05:30",
+                    PreviewURL: "",
+                    LiveURL: "",
+                    NotificationSeen:"false"}
+                    this.externalApi.addNewTicketToDB(addNewTicketDetails).subscribe((addNewTicketToDBRes:{})=>{
+                      console.log("addNewTicketToDBRes: ",addNewTicketToDBRes);
+                      alert("New Ticket has been created, we will get back to you soon.\nTicket No: "+generateTicketApiRes["data"]["key"]);
+                    });
+                  });
+                }
+              });
+              }
+            });
+          }
+         
+         });
+       }
+     });
+
+    
+
    /*  var ticketData = { user_id: localStorage.p2c_fcaHash, ticket_num :'FCATK-123456', status: '2', notify:'1' }
     this.api.generateTicketapi(JSON.stringify(ticketData)).subscribe((data: {}) => {
      console.log('Ticket Generated .!',data);
@@ -219,5 +271,34 @@ export class HomeComponent implements OnInit {
   changeIframeWidth(iframeSize)
   {
     this.iframeSize = iframeSize;
+  }
+  reloadiFrameforVA(data)
+  {
+    this.url = data["data"]["url"];
+  }
+
+  showNotificationDiv(val){
+    this.notificationDivShow = val;
+    if(this.notificationDivShow == true)
+    {
+      this.notificationIcon = "../assets/images/Notification_ON.SVG";
+    }
+    else{
+      this.notificationIcon = "../assets/images/Notification_OFF.SVG";
+    }
+    
+  }
+
+  showCartDiv(val1){
+    this.cartDivShow = val1;
+    if(this.cartDivShow == true)
+    {
+      this.cartIcon = "../assets/images/Shopping_ON.SVG";
+    }
+    else{
+      this.cartIcon = "../assets/images/Shopping_OFF.SVG";
+    }
+    
+
   }
 }

@@ -3,16 +3,19 @@
             <div class="row">
                 <div class="col-md-3">
                     <img class="nav-profile-icon" src="../assets/images/useravatar.png"/>
-                    <p class="nav-profile-info"><span>USER NAME</span><br/>
+                    <p class="nav-profile-info"><span>John Smith</span><br/>
                     <span>Fiat Italy</span></p>
                 </div>
-                <div class="col-md-6" align="center">
-                        <app-breakpoints (breakpointsEvents)="changeIframeWidth($event)" (breakpointsEvents)="closeEditorDiv(false)" ></app-breakpoints>
+                <div class="col-md-4" align="center">
+                        <app-breakpoints (breakpointsEvents)="changeIframeWidth($event)" (breakpointsEvents)="closeEditorDiv(false)" (ReloadiFrameForVA)="reloadiFrameforVA($event)" ></app-breakpoints>
+                </div>
+                <div class="col-md-2" align="center">
+                    <app-old-new-toggle></app-old-new-toggle>
                 </div>
                 <div class="col-md-3">
-                        <img class="nav-cart-icon"  src="../assets/images/Shopping_OFF.SVG"/>
-                        <img (click)="generateTiciet('send')" class="nav-jira-icon" src="../assets/images/Dashboard_OFF.SVG"/>
-                        <img class="nav-notification-icon" src="../assets/images/Notification_OFF.SVG"/>
+                        <img class="nav-cart-icon"  (click)="showCartDiv(true)" src="{{cartIcon}}"/>
+                        <img class="nav-jira-icon" src="../assets/images/Dashboard_OFF.SVG"/>
+                        <img class="nav-notification-icon" (click)="showNotificationDiv(true)" src="{{ notificationIcon }}"/>
                 </div>
             </div>
         </div>
@@ -31,5 +34,16 @@
     <!-- <script src="https://13.94.175.214/kfca/chatbotFrameIntegration.js"></script>  -->
     <div *ngIf="editorDivShow" class="floating-editor">
         <span class="floating-editor-close-btn" (click)="closeEditorDiv(false)" ></span>
-        <app-editor [compData]="compData" (hideEditorDiv)="closeEditorDiv($event)" (generateTicket)="generateTiciet($event)" ></app-editor>
+        <app-editor [compData]="compData" (hideEditorDiv)="closeEditorDiv($event)"  ></app-editor>
     </div>
+    <div *ngIf="notificationDivShow" class="notification-div">
+            <span class="floating-editor-close-btn" (click)="showNotificationDiv(false)" ></span>
+        <app-notificaion-box ></app-notificaion-box>
+    </div>
+
+    <div *ngIf="cartDivShow" class="notification-div">
+            <span class="floating-editor-close-btn" (click)="showCartDiv(false)" ></span>
+            <div class="notification-container" align="center">
+                    <button type="submit" class="floating-editor-submit-btn" (click)="submitChanges()">Send Request</button> 
+    </div>
+</div>

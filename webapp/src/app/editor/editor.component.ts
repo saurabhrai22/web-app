@@ -94,7 +94,7 @@ export class EditorComponent implements OnInit {
     
   };
   @Output() hideEditorDiv = new EventEmitter();
-  @Output() generateTicket = new EventEmitter();
+  @Output() submitNewChanges = new EventEmitter();
   constructor(public config:ConfigService, public externalApi:ApiService) { }
 
   
@@ -106,15 +106,15 @@ export class EditorComponent implements OnInit {
   SubmitVal(dataFromComp){
     console.log('EditorComponent.prototype.keyOfElement: ',EditorComponent.prototype.keyOfElement);
     //This will send data to iframe 
-    let fullCustAttr = '[data-p2c-resource="'+this.config.metaDataFromIframe.p2cresource+'"] ' +'[data-p2c="'+this.config.metaDataFromIframe.p2cdata+'"]';
-    let dataToSender = { fullcustattr : fullCustAttr , customobject : dataFromComp["customobject"] }
-    
+    //let fullCustAttr = '[data-p2c-resource="'+this.config.metaDataFromIframe.p2cresource+'"] ' +'[data-p2c="'+this.config.metaDataFromIframe.p2cdata+'"]';
+    //let dataToSender = { fullcustattr : fullCustAttr , customobject : dataFromComp["customobject"] }
+    let dataToSender1 ={source:"WA",event:"changeSingleDOM",data:dataFromComp["customobject"]} 
     //document.getElementsByTagName("iframe")[0]//[0].postMessage(JSON.stringify(dataToSender), '*');
     //window.frames[1].postMessage(JSON.stringify(dataToSender), '*');
     $.each(document.getElementsByTagName("iframe"),function(index,data){
       if(data.id == "main-iframe-id")
       {
-        window.frames[index].postMessage(JSON.stringify(dataToSender), '*');
+        window.frames[index].postMessage(dataToSender1, '*');
       }
       else{
         console.log('Iframe not matched..!');
@@ -140,7 +140,7 @@ export class EditorComponent implements OnInit {
     console.log("dataSetArrForRPA Editor Comp: ",dataSetArrForRPA);
    
     this.hideEditorDiv.emit(false);
-    //this.generateTicket.emit("send"); 
+    this.submitNewChanges.emit("send"); 
 
     //EditorComponent.prototype.updatedData  = $('#p2cdatahtml').froalaEditor('html.get');
     //let updatedDataNew = EditorComponent.prototype.updatedData;
