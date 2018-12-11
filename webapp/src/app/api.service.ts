@@ -11,8 +11,8 @@ import { Observable, of } from 'rxjs';
 export class ApiService {
   
   //nodeServicesEndpoint = "https://p2cevo-webapp-webservices.azurewebsites.net";
-  nodeServicesEndpoint = "http://p2c-webservices.azurewebsites.net";
-  webServicesEndpoint = "http://p2cevo.azurewebsites.net";
+  nodeServicesEndpoint = "https://p2c-webservices.azurewebsites.net";
+  webServicesEndpoint = "https://p2cevo.azurewebsites.net";
   //nodeServicesEndpoint1 = "http://localhost:5005";
   
   constructor(private httpClient: HttpClient) { }
