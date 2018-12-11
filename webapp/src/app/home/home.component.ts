@@ -32,8 +32,8 @@ export class HomeComponent implements OnInit {
           this.router.navigate(['/login']);
       }
       //this.url = "https://auth-dev6b2c.emea.fcagroup.com/content/fiat/fiat-it/it/home.html?wcmmode=disabled";
-      //this.url = "http://localhost:3000/pages/fiat_new.html";
-      this.url = "https://test-webapp-basefile.azurewebsites.net/fiat_new.html";
+      this.url = "http://localhost:3000/metatag_P2C.html";
+    //   this.url = "https://test-webapp-basefile.azurewebsites.net/fiat_new.html";
       window.addEventListener('message', (evt) => {
 
           if (this.config.checkTypeOf(evt.data).match('string')) {
@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit {
 
               var vaMessage = evt.data;
               if (Object.keys(vaMessage).includes("source")) {
-                  if (vaMessage["source"] == "Iframe") {
+                  if (vaMessage["source"] == "dpromo_sender") {
                       if (vaMessage["event"] == "newCanvasData") {
                           var waResponsetoVa = {
                               source: "WA",

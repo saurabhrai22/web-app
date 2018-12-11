@@ -34,7 +34,7 @@ export class MainiframeComponent implements OnInit {
     window.addEventListener('message', (evt) => {
     if(this.config.checkTypeOf(evt.data).match('object')){
       if(Object.keys(evt.data).includes("source")){
-        if(evt.data["source"] == "Iframe")
+        if(evt.data["source"] == "dpromo_sender")
         {
           this.sendJsonToHome.emit(evt.data["data"]);
         }
