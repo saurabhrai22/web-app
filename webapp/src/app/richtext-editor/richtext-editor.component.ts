@@ -19,18 +19,6 @@ export class RichtextEditorComponent implements OnInit {
     document.getElementById('p2cdatahtml').innerHTML = $($.parseHTML(richTextObject.htmldata)).html();
   } 
   @Output() public emitUpdateValue = new EventEmitter();
-  /* 
-  @Input('textObject')  textObject:any;
-  @Output() public emitUpdateValue = new EventEmitter(); */
- /*  @Input('getvalue') set getUpdatedValue(updatedValue){
-    console.log('Consoled: ',updatedValue);
-    if(updatedValue)
-    {
-      RichtextEditorComponent.prototype.emitUpdateValue.emit($('#p2cdatahtml').froalaEditor('html.get'));
-    }
-    
-  } */
-  
   constructor(public config:ConfigService) { }
 
   ngOnInit() {

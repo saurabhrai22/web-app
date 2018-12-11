@@ -50,16 +50,8 @@ export class TextEditorComponent implements OnInit {
         textEditorCompData["customobject"]["oldDOM"] = dataSetArrForRPA[searchedIndex]["update"][keyOfElement]["customobject"]["oldDOM"];
         textEditorCompData["newvalue"] =  this.newValue;
         textEditorCompData["customobject"]["newDOM"] = this.newDOM;
-      }/* 
-      else{
-        dataSetArrForRPA[searchedIndex]["update"][keyOfElement] = textEditorCompData ;
-      } */
+      }
     }
-   /*  else
-    {
-      dataSet["update"][keyOfElement] = textEditorCompData;
-      dataSetArrForRPA.push(dataSet);
-    } */
     this.emitUpdateValue.emit(textEditorCompData);
   }
 }
